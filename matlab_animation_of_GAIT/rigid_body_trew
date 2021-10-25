@@ -1,0 +1,9 @@
+clc
+clear
+%% hexapod description
+rbtree= rigidBodyTree;
+base_body=rigidBody('base');
+jnt_base_world=rigidBodyJoint('jnt_base_world','prismatic');
+base_body.Joint=jnt_base_world;
+world_name=rbtree.BaseName;
+addBody(rbtree,base_body,world_name)
