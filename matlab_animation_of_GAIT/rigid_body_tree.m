@@ -5,9 +5,8 @@ q3=[0.1,1.3,-2.5,0];
 q4=[0.1,1.3,-2.3,0];
 q5=[0.1,1.3,-2.7,0];
 %% dimensions
-l=0.8;
 b=0.3;
-
+l=b*sqrt(3);
 %% hexapod description
 for i=0:1:200
     % calculating the next set of cordinates for each link and base
@@ -25,10 +24,10 @@ for i=0:1:200
 	base_RR=base_pose+[-l/2 -b/2 0];
 
 	a0=base_pose+[Lstance+0.1 b/2 0];
-	a1=base_pose+[0 b/2 0];
+	a1=base_pose+[0 l/2 0];
 	a2=base_pose+[-Lstance-0.1 b/2 0];
 	a3=base_pose+[Lstance+0.1 -b/2 0];
-	a4=base_pose+[0 -b/2 0];
+	a4=base_pose+[0 -l/2 0];
 	a5=base_pose+[-Lstance-0.1 -b/2 0];
 
 	b0=a0+[-l1*sin(q0(1)) +l1*cos(q0(1)) 0 ];

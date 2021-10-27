@@ -2,13 +2,13 @@ clc
 clear
 %% assignment of DH paramaters to be used by the function built and in link formation
 l1=0.1;
-l2=0.2092;
-l3=0.3294;
-l4=0.2;
+l2=0.1292;
+l3=0.1794;
+l4=0.3;
 alpha=[pi/2,0,0,0];
 d=[0,0,0,0];
 a=[l1,l2,l3,l4];
-
+tor=zeros(20,3);
 %% defining link and initializing bot 
 L1=Link('revolute','d',d(1,1),'a',a(1,1),'alpha',alpha(1,1));
 L2=Link('revolute','d',d(1,2),'a',a(1,2),'alpha',alpha(1,2));
@@ -17,9 +17,9 @@ L3=Link('revolute','d',d(1,3),'a',a(1,3),'alpha',alpha(1,3));
 bot=SerialLink([L1,L2,L3],'name','hexapod');
 %% comparing the forward dynamincs with our code and fkine
 % T=ForwardKinematics([pi,pi/2,pi/4,pi/3,pi/2,pi/6])
-theta=[0.1,1.3,-2.4];
+theta=[-0.9828,-1.3093,0];
 % theta(4)=-pi/2-theta(2)-theta(3);
-T=bot.fkine(theta);
+T=bot.fkine(theta)
 
 %% defining trajectory mechnatronal
 dutyFactor=4/8;
@@ -28,25 +28,29 @@ points_per_Cycle=20;
 stance_time=Cycle_time*dutyFactor;
 swing_time=Cycle_time*(1-dutyFactor);
 
-Lstance=0.3;
+Lstance=0.28;
 Lswing=Lstance;
-nominal_height=0.1;
+nominal_height=0.28;
 %% Trajectory
 %swing trjacetory
 Ys=-Lswing/2:Lswing/((1-dutyFactor)*points_per_Cycle-1):Lswing/2+0.004;
 Ys=flip(Ys);
 Zs=0.1*sin((Ys+Lswing/2)*pi/Lswing)-nominal_height;
-Xs=0.3+zeros(1,floor((1-dutyFactor)*points_per_Cycle+0.02));
+Xs=0.11+zeros(1,floor((1-dutyFactor)*points_per_Cycle+0.02));
 %stance trjectory
 Yst=-Lstance/2:Lstance/(dutyFactor*points_per_Cycle-1):Lstance/2+0.004;
-Xst=0.3+zeros(1,floor(dutyFactor*points_per_Cycle+0.02));
+Xst=0.11+zeros(1,floor(dutyFactor*points_per_Cycle+0.02));
 Zst=-nominal_height+zeros(1,floor(dutyFactor*points_per_Cycle+0.02));
 %final path
 Xt=[Xs,Xst];
 Yt=[Ys,Yst];
 Zt=[Zs,Zst];
-% Xt=Xst;
-% Zt=Zst;
+% Xt=Xst;;
+% Zt=Zst;% for i=1:20
+%     bot.plot(trajec_real(i,:))
+%     pause(0.5)
+% end
+
 % Yt=Yst;
 %% inverse kinematics
 
@@ -73,5 +77,13 @@ for i =1:1:points_per_Cycle
     trajec_real(i,:)=real(theta);
 end
 
-%% plotting
-
+%% plotting one leg trajectory
+for i=1:20
+    bot.plot(trajec_real(i,:))
+    pause(0.5)
+end
+%% plotting torque
+for i=1:20
+    Jacob=bot.jacob0(trajec_real(i,:));
+    tor(i,:)=(Jacob'*[0;78.4;196;0;0;0])';
+end

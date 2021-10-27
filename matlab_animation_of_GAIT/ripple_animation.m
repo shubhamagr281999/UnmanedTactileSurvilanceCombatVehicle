@@ -9,7 +9,7 @@ l=0.8;
 b=0.3;
 
 %% hexapod description
-for i=0:1:200
+for i=0:1:1000
     % calculating the next set of cordinates for each link and base
     q0=trajec_real(rem(0*10+i,20)+1,:);
     q1=trajec_real(rem(1*10+i,20)+1,:);
@@ -54,8 +54,8 @@ for i=0:1:200
 
 
 	%plotting
-	clf
 	%plotting base
+    clf
 	base_points=[base_LF' base_LR' base_RR' base_RF'];
 	plot3(base_points(1,:),base_points(2,:),base_points(3,:))
 	hold on
@@ -73,7 +73,10 @@ for i=0:1:200
 	l1_2=[a2' b2'];
 	l1_3=[a3' b3'];
 	l1_4=[a4' b4'];
-	l1_5=[a5' b5'];
+	l1_5=[a5' b5'];    xlim([-0.8 2])    
+    ylim([-0.8 2])
+    zlim([-0.3 2])
+
 	plot3(l1_0(1,:),l1_0(2,:),l1_0(3,:),'LineWidth',4)
 	plot3(l1_1(1,:),l1_1(2,:),l1_1(3,:),'LineWidth',4)
 	plot3(l1_2(1,:),l1_2(2,:),l1_2(3,:),'LineWidth',4)
