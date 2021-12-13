@@ -8,17 +8,20 @@ q5=[0.1,1.3,-2.7,0];
 l=0.8;
 b=0.3;
 
-%% hexapod description
+%% hexapod animation
+h=0; %heading
+go_to_point=[]
 for i=0:1:1000
+	h=1.34*i/20;
     % calculating the next set of cordinates for each link and base
-    q0=trajec_real(rem(0*10+i,20)+1,:);
-    q1=trajec_real(rem(1*10+i,20)+1,:);
-    q2=trajec_real(rem(0*10+i,20)+1,:);
+    q0=trajec_real(points_per_Cycle - rem(0*10+i,20),:);
+    q1=trajec_real(points_per_Cycle - rem(1*10+i,20),:);
+    q2=trajec_real(points_per_Cycle - rem(0*10+i,20),:);
     q3=trajec_real(rem(1*10+i,20)+1,:);
     q4=trajec_real(rem(0*10+i,20)+1,:);
     q5=trajec_real(rem(1*10+i,20)+1,:);
 
-	base_pose=[i*Lstance/points_per_Cycle 0 0];
+	base_pose=[0*Lstance/points_per_Cycle 0 0];
 	base_LF=base_pose+[l/2 b/2 0];
 	base_LR=base_pose+[-l/2 b/2 0];
 	base_RF=base_pose+[l/2 -b/2 0];
@@ -56,7 +59,7 @@ for i=0:1:1000
 	%plotting
 	%plotting base
     clf
-	base_points=[base_LF' base_LR' base_RR' base_RF'];
+	base_points=[RotZ(h)*base_LF' RotZ(h)*base_LR' RotZ(h)*base_RR' RotZ(h)*base_RF'];
 	plot3(base_points(1,:),base_points(2,:),base_points(3,:))
 	hold on
 	patch(base_points(1,:),base_points(2,:),base_points(3,:),'m')
@@ -68,12 +71,12 @@ for i=0:1:1000
     ylim([-0.8 2])
     zlim([-0.3 2])
 	%plotting link1
-	l1_0=[a0' b0'];
-	l1_1=[a1' b1'];
-	l1_2=[a2' b2'];
-	l1_3=[a3' b3'];
-	l1_4=[a4' b4'];
-	l1_5=[a5' b5'];    xlim([-0.8 2])    
+	l1_0=[RotZ(h)*a0' RotZ(h)*b0'];
+	l1_1=[RotZ(h)*a1' RotZ(h)*b1'];
+	l1_2=[RotZ(h)*a2' RotZ(h)*b2'];
+	l1_3=[RotZ(h)*a3' RotZ(h)*b3'];
+	l1_4=[RotZ(h)*a4' RotZ(h)*b4'];
+	l1_5=[RotZ(h)*a5' RotZ(h)*b5'];    xlim([-0.8 2])    
     ylim([-0.8 2])
     zlim([-0.3 2])
 
@@ -85,12 +88,12 @@ for i=0:1:1000
 	plot3(l1_5(1,:),l1_5(2,:),l1_5(3,:),'LineWidth',4)
 
 	%plotting link2
-	l2_0=[b0' c0'];
-	l2_1=[b1' c1'];
-	l2_2=[b2' c2'];
-	l2_3=[b3' c3'];
-	l2_4=[b4' c4'];
-	l2_5=[b5' c5'];
+	l2_0=[RotZ(h)*b0' RotZ(h)*c0'];
+	l2_1=[RotZ(h)*b1' RotZ(h)*c1'];
+	l2_2=[RotZ(h)*b2' RotZ(h)*c2'];
+	l2_3=[RotZ(h)*b3' RotZ(h)*c3'];
+	l2_4=[RotZ(h)*b4' RotZ(h)*c4'];
+	l2_5=[RotZ(h)*b5' RotZ(h)*c5'];
 	plot3(l2_0(1,:),l2_0(2,:),l2_0(3,:),'LineWidth',4)
 	plot3(l2_1(1,:),l2_1(2,:),l2_1(3,:),'LineWidth',4)
 	plot3(l2_2(1,:),l2_2(2,:),l2_2(3,:),'LineWidth',4)
@@ -99,12 +102,12 @@ for i=0:1:1000
 	plot3(l2_5(1,:),l2_5(2,:),l2_5(3,:),'LineWidth',4)
 
 	%plotting link3
-	l3_0=[c0' d0'];
-	l3_1=[c1' d1'];
-	l3_2=[c2' d2'];
-	l3_3=[c3' d3'];
-	l3_4=[c4' d4'];
-	l3_5=[c5' d5'];
+	l3_0=[RotZ(h)*c0' RotZ(h)*d0'];
+	l3_1=[RotZ(h)*c1' RotZ(h)*d1'];
+	l3_2=[RotZ(h)*c2' RotZ(h)*d2'];
+	l3_3=[RotZ(h)*c3' RotZ(h)*d3'];
+	l3_4=[RotZ(h)*c4' RotZ(h)*d4'];
+	l3_5=[RotZ(h)*c5' RotZ(h)*d5'];
 	plot3(l3_0(1,:),l3_0(2,:),l3_0(3,:),'LineWidth',4)
 	plot3(l3_1(1,:),l3_1(2,:),l3_1(3,:),'LineWidth',4)
 	plot3(l3_2(1,:),l3_2(2,:),l3_2(3,:),'LineWidth',4)

@@ -28,7 +28,7 @@ points_per_Cycle=20;
 stance_time=Cycle_time*dutyFactor;
 swing_time=Cycle_time*(1-dutyFactor);
 
-Lstance=0.28;
+Lstance=0.2;
 Lswing=Lstance;
 nominal_height=0.28;
 %% Trajectory
